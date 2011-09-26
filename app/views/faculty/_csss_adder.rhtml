@@ -1,0 +1,11 @@
+<% @courses.each do |c| %>
+	<div class="course_picker"><%= check_box_tag("courses[]", c.id, false, { :onclick => "$('sections_for_#{c.id}').toggle();$('sections_for_#{c.id}').childElements().each(function(item) { item.checked=false; });" }) %> <%= c.number %></div>
+		<div id="sections_for_<%= c.id %>" style="display: none" class="section_picker"><% c.sections.each do |s| %>
+			<%= check_box_tag("sections[]", s.id) %> <%= s.number %>
+		<% end %>
+	</div>
+<% end %>
+
+<script>
+$('sections_for_1').descendents.each(function(value) { document.write(value) })
+</script>

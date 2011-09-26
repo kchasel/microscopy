@@ -1,0 +1,6 @@
+<div class="row <%= 'alt' if imglist_item_counter.modulo(2).nonzero? %> <%= 'private' if imglist_item.status == 'private' and not imglist_item_counter.modulo(2).nonzero? %> <%= 'private_alt' if imglist_item.status == 'private' and  imglist_item_counter.modulo(2).nonzero? %> <%= 'private_all' if imglist_item.status == 'private_all' %>">
+	<div class="cell image_cell"><%= link_to image_tag(imglist_item.url + 'TileGroup0/0-0-0.jpg'), :action => 'view', :id => imglist_item.id %></div>
+	<div class="cell name_cell" width="30%"><%= link_to imglist_item.name, :action => 'view', :name => imglist_item.name %></div>
+	<div class="cell course_num_cell"><span class="editlinks"><% imglist_item.courses.each do |c| %><%= link_to "#{c.number}", :action => 'index', :coursenum => c.number, :sectionnum => nil %><% imglist_item.sections(c).each do |s| %> (<%= link_to s.number, :action => 'index', :coursenum => c.number, :sectionnum => s.number %>)<% end %><br /><% end %></span></div>
+	<div class="cell course_num_cell"><span class="editlinks"><% imglist_item.systems.each do |s| %><%= link_to s.name, :action => 'system', :system => s.name %><br /><% end %></span></div>
+</div>

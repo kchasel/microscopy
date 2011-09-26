@@ -1,0 +1,9 @@
+<div class="row <%= 'alt' if system_item_counter.modulo(2).nonzero? %>" id="row_<%= system_item.id %>">
+	<div class="cell name_cell" width="30%">
+	<span class="editlinks" style="float: right"><%= link_to "Delete #{system_item.name}", :action => 'delete', :id => system_item.id if site_user %></span>
+	<%= link_to system_item.name, :action => 'system', :controller => 'main', :system => system_item.name %>
+	</div>
+
+	<div class="cell course_num_cell"><%= system_item.images.length %></div>
+
+</div>

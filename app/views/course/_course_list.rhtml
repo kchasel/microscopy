@@ -1,0 +1,12 @@
+<div class="table">
+<div class="row general_header">
+	<div class="cell name_cell">Name</div>
+	<div class="cell name_cell">Number</div>
+	<div class="cell course_num_cell">Sections</div>
+	<div class="cell course_num_cell">Slides</div>
+</div>
+
+	<%= render :partial => 'course_item', :collection => @courses %>
+
+</div>
+<%= "<div class='nothing_found'>no courses found</div>" if @courses.empty? %>

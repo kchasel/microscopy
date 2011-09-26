@@ -1,0 +1,30 @@
+
+
+<div id="controlpanel">
+	
+	<div style="border-bottom: 1px solid #dfdfdf; text-align: center">
+		<div style="position: absolute; top: 5px; right: 5px">
+			<select onchange="location.href='<%= url_for(:action => 'edit', :id => nil) %>/'+value">
+				<option value="">Edit Existing</option>
+				<%= options_from_collection_for_select(@all_pathways, :id, :name) %>
+			</select>
+			<span class="h4like"><%= link_to "New Pathway &#187;", :action => :new %></span>
+		</div>
+		<h1>Pathway Editor</h1>
+		<h4>important: only slides with a status of public will appear to students in the pathway</h4>
+	</div>
+	
+	<script type="text/javascript">
+		window.onload = function(){update_order_field_for_sortables();}
+	</script>
+	<%= error_messages_for(:pathway) %>
+	<%= form_tag({ :action => 'edit', :id => @pathway.id }, :onsubmit => "if($('pathway_order').value=='') { if(confirm('This pathway will be deleted because it contains no more slides.')) { return(true); } else { return(false) }  }") %>
+	
+		<%= render :partial => 'visual_form' %>
+	
+	<%= submit_tag("Edit") %> <%= cancel_button("Cancel") %> <input type='button' value="Delete this Pathway" onclick="location.href='<%= url_for :action => :delete, :id => @pathway.id %>'">
+	
+	</form>
+	</div>
+	
+</div>

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+	<%= stylesheet_link_tag('standard') %>
+	<head>
+		<title>UCH Microscopy Images Database<%= " :: #{controller.action_name.humanize}#{" - " + params[:system].humanize if params[:system]}#{" - #{DEPT_CODE} " + params[:coursenum] if params[:coursenum]}#{"/" + params[:sectionnum] if params[:sectionnum]}#{": " + @image.name if @image and @image.name}" %></title>
+	<%= javascript_include_tag :defaults %>
+	<%= javascript_include_tag 'slider' %>
+	</head>
+	<body>
+
+<div id="container">
+	
+	<div id="padded-container">
+	
+	<div id="topbox">
+		<div class="userbox">
+			<% if site_user %>
+				<b><%= site_user.cnet %> <%= "(ADMIN)" if site_user.admin == true %></b> <%= link_to "Faculty Logout", :action => 'logout', :controller => 'faculty' %>
+				<br />You own <b><%= pluralize(Image.count(:conditions => ["faculty_id = ?", site_user.id]), 'slide') %></b> in the system
+				<br /><%= link_to "Instructions", :action => 'instructions', :controller => 'faculty' %> | <%= link_to "Admin tools", :action => 'admin', :controller => 'faculty' if site_user.admin == true %><%= " | " if site_user.admin == true %><%= link_to "Master settings", :action => 'index', :controller => 'options' if is_root? %><%= " | " if is_root? %><%= link_to "My Account", :action => 'account', :controller => 'faculty' %> | <%= link_to "Slide Management", :action => 'index', :controller => 'faculty', :id => nil %> | <%= link_to "Add Slides", :action => 'add_slide', :controller => 'faculty' %>
+			<% else %>
+				<br /><%= link_to "Faculty Login", :action => 'login', :controller => 'faculty' %>
+			<% end %>
+		</div>
+		<div class="topleftbox">
+		<div class="logo" onclick="location.href='<%= url_for :action => 'index', :controller => 'main', :coursenum => nil, :sectionnum => nil %>';"></div>
+		
+		<% if flash[:error] or flash[:success] or flash[:alert] %>
+		<div id="notices">
+		<% if flash[:error] %><div class='error_field'><h3>Error</h3><%= flash[:error] %></div><% end %>
+		<% if flash[:success] %><div class='success_field'><h3>Success!</h3><%= flash[:success] %></div><% end %>
+		<% if flash[:alert] %><div class="notice_field"><h3>Alert</h3><%= flash[:alert] %></div><% end %>
+		</div>
+		<% end %>
+		
+		</div>
+	</div>
+	
+		<%= yield %>
+
+		</div>
+		
+		<% if @pathway and not @pathway.new_record? %>
+			<%= render :partial => 'pathway/bottombar'%>
+		<% end %>
+
+</div>
+
+	</body>
+</html>

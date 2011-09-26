@@ -1,0 +1,19 @@
+<h2>Pre-Uploaded Slide Addition | <%= link_to "Single Slide Upload &#187;", :action => "add_slide" %></h2>
+<p>Use this tool to add zoomified slides that have already been uploaded to the server. The current upload folder is</p>
+	<p><b><%= UPLOAD_LOCATION %></b></p>
+<p>Below is a list of all zoomified slides currently in the above directory. Hit the Add button below to insert each of these slides into the system and remove them from the upload folder. The owner of each inserted slide will be this account, the <%= link_to "root administrator", :action => "instructions" %>, <%= ZoomifyVars::CONFIG[:shared_admin] %>. Each slide will be given default, dummy variables for most values, listed below, which you will need to manually change after the upload is complete. Finally, each slide will be given a status of Private, so they will not be visible to students until you have manually edited them and made their statuses public.</p>
+<h3>Default Values for Pre-Uploaded Slides</h3>
+<ul>
+	<li>Name of slide: Name of zoomified slide folder</li>
+	<li>Magnification: 20X</li>
+	<li>Show Annotations: Immediately</li>
+	<li>Status: Private (invisible to students)</li>
+</ul>
+<h3>Slides in the directory to be batch-added</h3>
+<ol>
+<% @names.each do |i| %>
+	<li><%= i %></li>
+<% end %>
+</ol>
+<%= "<h4>There are no slides in the upload directory.</h4>" if @names.empty? %>
+<%= button_to "Add These Pre-Uploaded Slides", :action => 'batch_upload' if not @names.empty? %> <%= cancel_button("Cancel", :action => :index) %>

@@ -1,0 +1,7 @@
+if @images.blank?
+  page.replace_html 'all-images-list', :partial => 'nothing_found'
+else
+  page.replace_html 'all-images-list', :partial => 'image_list', :collection => @images unless @images.empty?
+  page << "Sortable.create(\"all-images-list\", {constraint:false, scroll: window, containment:['new-pathway-list','all-images-list'], dropOnEmpty:true, overlap:'horizontal', tag:'img'});"
+  page << "Sortable.create(\"new-pathway-list\", {constraint:false, scroll: window, containment:['new-pathway-list','all-images-list'], dropOnEmpty:true, overlap:'horizontal', hoverclass:'active', tag:'img', onUpdate:function(){update_order_field_for_sortables()}})"
+end

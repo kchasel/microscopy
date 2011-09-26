@@ -1,0 +1,1 @@
+page.replace "row_#{@image.id}", :partial => 'faculty_item', :locals => { :faculty_item => @image}

@@ -1,0 +1,18 @@
+<div id="pathway-bar">
+	<div id="minusbox"><%= link_to_function image_tag('/images/minusbox.png', :alt => "Click to exit pathway"), "raise_bottombar()" %></div>
+	<div class='content'>
+
+	
+	<div id="title" onclick='raise_bottombar()'><h3><%= @pathway.name %> Pathway</h3></div>
+
+	<div id="pathway">
+		<ul>
+			<% @pathway.pathway_items.each do |i| %>
+			<li><%= link_to_unless i == @item, image_tag(i.image.url + 'TileGroup0/0-0-0.jpg', :id => "#{'selected' if i == @item}"), :action => 'view', :id => @pathway.id, :image_id => i.image_id %>
+			</li>
+			<% end %>
+		</ul>
+	</div>
+	</div>
+	
+</div>

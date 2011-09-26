@@ -1,0 +1,1 @@
+page.replace_html('sections_picker', :partial => 'sections_picker')

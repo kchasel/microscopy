@@ -1,0 +1,23 @@
+<h2>Slide Management</h2>
+<%= "<h3>Annotations <span class='inactive'>are inactive</span> and are not visible to students.</h3>" if not annotations_active %>
+<%= "<h3>User Accounts <span class='inactive'>are deactivated</span>. " + link_to("Reactivate &#187;", :action => 'index', :controller => 'options') + "</h3>" if not accounts_active %>
+
+<h3>Click a slide's name to annotate.</h3>
+<%= "<h4>Slides in gray are owned by another user. You may view them but not edit or annotate them.</h4>" unless site_user.admin %>
+
+<div class="table_box">
+
+<div id="searchbar">
+
+<div class="searchbar top"><div class="row"><div class="cell">
+<span class="intro_text">Tools</span>
+<%= link_to "Batch Edit Slides", :action => "batch_edit" %> | <%= link_to "Pathway Builder", :action => 'new', :controller => 'pathway' %> | <%= link_to "Systems", :action => 'index', :controller => 'system' %> | <%= link_to "Courses", :action => 'index', :controller => 'course' %>
+</div></div></div>
+
+<%= render :partial => 'layouts/searchbar' %>
+</div>
+
+<div id='img_list'>
+	<%= render :partial => 'faculty_list' %>
+</div>
+</div>

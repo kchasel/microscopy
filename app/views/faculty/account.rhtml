@@ -1,0 +1,34 @@
+
+
+<div id="controlpanel">
+	
+	<div style="border-bottom: 1px solid #dfdfdf; text-align: center">
+		<h1>Account Management</h1>
+		<h3 style="vertical-align: middle">for <%= site_user.cnet %> (ID = <%= site_user.id %>)</h3>
+		<% if @num_admins == 0 %>
+		<h3>There are no admins! <%= link_to "Click here to claim adminship.", :action => 'make_me_admin', :id => site_user.id %></h3>
+		<% end %></center>
+	</div>
+	
+	<h2>Preferences <span id="preferences_status"></span></h2>
+	<h4>changes take effect immediately</h4>
+	
+	<div id="preferences" style="text-align: left">
+		<form id="prefs">
+		<ul>
+			<li>
+				By default upon login, redirect to
+				<br /><input type="radio" id="faculty_preferences_login_page" name="faculty[preferences][login_page]" value="main" <%= if @faculty.preferences[:login_page] == 'main' then "checked=true" end %>>Main page
+				<br /><input type="radio" id="faculty_preferences_login_page" name="faculty[preferences][login_page]" value="management" <%= if @faculty.preferences[:login_page] == 'management' then "checked=true" end %>>Slide management
+			</li>
+		</ul>
+		</form>
+		<%= observe_form('prefs', :url => { :action => :update_user_prefs }) %>
+	</div>
+
+	
+	<h2><%= link_to "Delete my account &#187;", { :action => 'delete_account', :id => @faculty.id } unless is_root? %><%= "(root user cannot be deleted)" if is_root? %></h2>
+	
+	<%= "<h2>" + link_to("Change root password &#187;", :action => 'change_root_pw').to_s + "</h2>" if is_root? %>
+	
+</div>

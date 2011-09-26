@@ -1,0 +1,5 @@
+page.replace_html 'preferences_status', 'updated'
+page.show 'preferences_status'
+page.delay(3) do
+  page.visual_effect :fade, 'preferences_status'
+end

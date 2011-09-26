@@ -1,0 +1,48 @@
+<div class="row">
+<div class="cell label">Slides to Edit*</div><div class="cell"><select id="images" name="images[]" multiple="true" size="10" style="width: 200px"><%= options_from_collection_for_select(@images, :id, :name) %></select></div>
+</div>
+<div class="row">
+<div class="cell label"><input type="checkbox" onclick="$('image_magnification')[$('image_magnification').disabled ? 'enable' : 'disable']();"> Magnification</div><div class="cell"><%= text_field(:image, :magnification, :size => 4, :maxlength => 5, :disabled => true, :value => "") %>X</div>
+</div>
+<div class="row">
+	<div class="cell label"><input type="checkbox" onclick="$$('div#adder_field input').each(function(item) { if (item.match('input')) { item[item.disabled ? 'enable' : 'disable'](); } });"> Courses and Sections</div>
+	<div class="cell" style="vertical-align: top" id="adder_field">
+		<%= text_field(:image, :commatted_secs, :disabled => true, :value => "") %> <%= check_box(:image, :maintain_sections, :disabled => true, :checked => true) %> <b>Maintain existing sections and add these.</b>
+		<br /><i>format: [course #] [section #]; ex: "12345 10". separate multiples with commas</i>
+	</div>
+</div>
+<div class="row">
+	<div class="cell label"><input type="checkbox" onclick="$$('div#systems_fields select').each(function(item) { if (item.match('select')) { item[item.disabled ? 'enable' : 'disable'](); } });">Systems</div>
+	<div class="cell" id="systems_fields">
+		<select id="image_systems_array_1" name="image[systems_array][]" disabled>
+			<option value=""></option>
+			<%= options_from_collection_for_select(@systems, :id, :name) %>
+		</select>
+		<select id="image_systems_array_2" name="image[systems_array][]" disabled>
+			<option value=""></option>
+			<%= options_from_collection_for_select(@systems, :id, :name) %>
+		</select>
+		<select id="image_systems_array_3" name="image[systems_array][]" disabled>
+			<option value=""></option>
+			<%= options_from_collection_for_select(@systems, :id, :name) %>
+		</select>
+		<span class="h4like"><%= link_to "Manage Systems &#187;", :action => 'index', :controller => 'system' %>
+		<br />If this option is selected, each slide's systems will be cleared and updated to match those here.</span>
+	</div>
+</div>
+<div class="row">
+<div class="cell label">Status</div><div class="cell"><%= radio_button(:image, :status, 'public') %>Public <%= radio_button(:image, :status, 'private') %>Private <%= radio_button(:image, :status, 'private_all')%>Private to all</div>
+</div>
+<div class="row">
+<div class="cell"></div>
+<div class="cell">
+<span class="minitext">Public slides may be viewed by students and faculty. Private slides may only be viewed by faculty. Private to all slides may only be viewed by you and the root administrator</span></div>
+</div>
+<div class="row">
+<div class="cell label"><input type="checkbox" onclick="$('datetime_select').childElements().each(function(item) { item[item.disabled ? 'enable' : 'disable'](); });"> Annotation Appear Date</div><div class="cell" id="datetime_select"><%= datetime_select(:image, :show_annotations, :disabled => true) %> <%= Time.now.strftime("%Z")%></div>
+</div>
+<div class="row">
+<div class="cell"></div>
+<div class="cell">
+<span class="minitext">If this is changed to a future date, the annotations will not be viewable by students until that time.</span></div>
+</div>

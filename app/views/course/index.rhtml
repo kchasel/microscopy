@@ -1,0 +1,19 @@
+<h2>Courses</h2>
+
+<div class="searchbar">
+<div class="row">
+<div class="cell">
+	<%= link_to "+ New Course", :action => 'new' if site_user %>
+</div>
+<div class="cell" style="text-align: right">
+<%= link_to "XML", :format => 'xml' %> |
+Course Search
+<input id="searchtext" name="searchtext" type="text" value="" />
+<%= observe_field "searchtext", :frequency => 1.0, :url => { :action => 'search' }, :update => "course_list", :with => "'search=' + escape(value) #{" + '&coursenum=' + " + params[:coursenum] if params[:coursenum]} #{" + '&sectionnum=' + " + params[:sectionnum] if params[:sectionnum]} #{" + '&system=#{params[:system]}'" if params[:system]}", :loading => "$('searchtext').className='searching'", :complete => "$('searchtext').className=''" %>
+</div>
+</div>
+</div>
+
+<div id="course_list">
+	<%= render :partial => 'course_list' %>
+</div>

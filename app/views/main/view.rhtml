@@ -1,0 +1,65 @@
+<script>
+window.onload = function () { stickToBottom(); }
+window.onresize = function () { stickToBottom(); }
+</script>
+<div id="slidebox">
+
+<div class="row">
+	
+<div class="side_cell" id="info_box" style="">
+	<div class="info">
+	<div id="courses_for_slide">
+	<div id="courses_list">
+	<h2><%= @image.name %></h2>
+	<ul>
+		<% @image.courses.each do |c| %>
+		<li><%= link_to "#{DEPT_CODE} #{c.number}", :action => 'index', :coursenum => c.number, :sectionnum => nil %>
+			<ul>
+			<% @image.sections(c).each do |s| %>
+			<li><%= link_to "Section #{s.number}", :action => 'index', :coursenum => c.number, :sectionnum => s.number %></li>
+			<% end %>
+			</ul>
+		</li>
+		<% end %>
+	</ul>
+	<%= "<h4>Systems</h4>" if not @image.systems.empty? %>
+	<ul>
+		<% @image.systems.each do |sys| %>
+		<li><%= link_to sys.name, :action => 'system', :system => sys.name %></li>
+		<% end %>
+	</ul>
+	</div>
+	<b><%= link_to_function "... Show all", "$('courses_list').style.height='100%';this.hide()"%></b>
+	</div>
+
+	<div id="compare_with">
+	<h3>Compare with</h3>
+		<select id="id" name="id" style="width: 100px">
+			<option value=""></option>
+			<option value="<%=@image.id %>">Itself</option>
+			<%= options_from_collection_for_select(@images, :id, :name) %>
+		</select>
+			<%= observe_field :id, :url => { :action => 'load_second_slide', :controller => 'main' }, :with => 'id' %>
+	</div>
+	
+	</div>
+	
+</div>
+	
+<div class="slidecell">
+
+<div id="topslide">
+<%= render :partial => 'main/slide_viewer' %>
+</div>
+
+<div id="bottomslide" style="display: none">
+<div class="close-circle"><%= link_to_function image_tag('closebox.png'), "$('bottomslide').hide(); $('topslide').style.height = '100%'" %></div>
+<div id="bsspace">
+<%= render :partial => 'main/loading_text' %>
+</div>
+</div>
+
+</div>
+			
+</div>
+</div>

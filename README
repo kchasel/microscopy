@@ -1,0 +1,7 @@
+This is the partial RoR code for the vmicro site I designed and built a few years ago. It's a slide-management system that allows faculty to add microscope slides, group them into courses and systems, create pathways to link them together, and compare slides between themselves. I've removed all sensitive data and images and other config files so it won't work as-is if just cloned and loaded.
+
+The site has one all-encompassing root user who can do whatever it wants and is always re-declared admin by the Faculty model. All other admin users (those who can contribute to the system) are authenticated both against a whitelist and against the school's ldap server. Only those users whose creds check out and who are on the whitelist can login and have various privileges (which can be controlled by the root user).
+
+Slides are displayed using Zoomify, a Flash-based system for viewing and annotating images, permitting zooming and such. Again, all zoomify-related data has been filtered and the files removed.
+
+More info about the functionality is in the file README_FOR_APP in /doc

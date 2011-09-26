@@ -1,0 +1,12 @@
+<div class="table">
+<div class="row general_header">
+	<div class="cell image_cell"><%= pluralize(@img_ids.length, 'slide')%></div>
+	<div class="cell name_cell"><%= link_to_remote "Name", :url => { :action => 'reorganize', :type => 'name', :images => @img_ids.to_yaml, :current => @current }, :update => "img_list", :loading => "$('searchtext').className='searching'", :complete => "$('searchtext').className=''" %></div>
+	<div class="cell course_num_cell">Courses & Sections</div>
+	<div class="cell course_sec_cell">Systems</div>
+</div>
+
+	<%= render :partial => 'imglist_item', :collection => @images %>
+
+</div>
+<%= "<div class='nothing_found'>no slides found</div>" if @images.empty? %>

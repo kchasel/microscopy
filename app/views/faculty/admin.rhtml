@@ -1,0 +1,55 @@
+<h2>Administrator Options</h2>
+<h3><%= link_to "Master Control Panel &#187;", :action => 'index', :controller => 'options' if is_root? %></h3>
+Below are all of the users in the system, along with various options. Note that if you unadminify yourself you will no longer have access to this page and will need to have another admin give you access again!
+<p><b>CNETID</b> = user is on allowed users list and has an active account
+<br /><b><span class="disabled">CNETID</span></b> = user is on allowed users list but does not have an active account
+<br /><b><span class="private_alt errorExplanation">CNETID</span></b> = user is <b>not</b> on allowed users list but has an active account
+</p>
+<div class="searchbar"><div class="row"><div class="cell"><%= form_tag({ :action => 'add_to_users_list' }, :method => :get) %>
+Add a user to the allowed users list: <%= text_field_tag("cnet") %>
+<%= submit_tag("Add") %>
+</form>
+</div>
+<div class="cell" style="text-align: right"><%= form_tag({ :action => 'remove_from_users_list' }, :method => :get) %>
+Remove a user from the allowed users list: <%= text_field_tag("cnet") %>
+<%= submit_tag("Remove") %>
+</form>
+</div>
+</div></div>
+<div class="table">
+	<div class="row general_header">
+		<div class="cell" style="width: 5%">ID</div>
+		<div class="cell">CNetID</div>
+		<div class="cell">Number of Slides</div>
+		<div class="cell">Admin?</div>
+		<div class="cell">Deletion</div>
+	</div>
+	<% @users.each do |user| %>
+		<div class="row <%= "private_alt" if @not_allowed.include?(user.cnet) and not user.cnet == ZoomifyVars::CONFIG[:shared_admin] %>">
+			<div class="cell"><%= user.id %></div>
+			<div class="cell"><%= "<span class='errorExplanation'>" if @not_allowed.include?(user.cnet) and not user.cnet == ZoomifyVars::CONFIG[:shared_admin] %><%= user.cnet %>
+			<%= "</span>" + link_to("Re-add #{user.cnet} to allowed users list", :action => 'add_to_users_list', :cnet => user.cnet) if @not_allowed.include?(user.cnet) and not user.cnet == ZoomifyVars::CONFIG[:shared_admin] %>
+			<%= "<br /><span class='minitext'>This is the site administrator. This user cannot be deleted or lose admin status.</span>" if user.cnet == ZoomifyVars::CONFIG[:shared_admin] %></div>
+			<div class="cell"><%= user.images.count %></div>
+			<div class="cell"><%= user.admin.to_s.camelcase %> <%= link_to_if(user.admin == false, "Make #{user.cnet} an admin", :action => 'make_admin', :id => user.id) do |name|
+		link_to "Remove #{user.cnet} as an admin", { :action => 'remove_admin', :id => user.id } unless user.cnet == ZoomifyVars::CONFIG[:shared_admin]
+	end %><% if user.cnet == ZoomifyVars::CONFIG[:shared_admin] %><%= link_to("Reset root password", { :action => 'new_root_pw' }, :confirm => "This will reset the root password to a randomized string. The new password will be e-mailed only to the site administrator e-mail defined in the zoomify_environment.rb configuration file. If this e-mail is not yours, you will need to contact this user to obtain the new root password for access to the root account.") %><%= " | " + link_to("Change root password", :action => 'change_root_pw') if is_root? %><% end %></div>
+			<div class="cell"><%= link_to "Delete #{user.cnet}", { :action => 'delete_account', :id => user.id } unless user.cnet == ZoomifyVars::CONFIG[:shared_admin] %></div>
+		</div>
+	<% end %>
+	<% unless @not_subscribed.empty? %>
+		<div class="row">
+			<div class="cell"></div>
+			<div class="cell">
+			<b>The following users are permitted on the users list but do not have an active account</b>
+			</div>
+		</div>
+	<% @not_subscribed.each do |ns| %>
+		<div class="row">
+				<div class="cell"></div>
+				<div class="cell disabled"><%= ns %>
+				</div>
+		</div>
+	<% end %>
+	<% end %>
+</div>

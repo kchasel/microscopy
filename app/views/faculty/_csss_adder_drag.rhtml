@@ -1,0 +1,36 @@
+<div class="table">
+	<div class="row general_header">
+		<div class="cell">Courses & Sections
+			<br /><span class="small">Drag sections for this slide to the right</span></div>
+	</div>
+	<div class="row">
+		<div class="cell" style="padding: 0px">
+			<div class="table" id="course_dragging_selector" style="">
+				<div class="row">
+					<div class="cell" style="padding: 2px; font-weight: bold">Available Sections</div>
+					<div class="cell" style="padding: 2px; font-weight: bold">This Slide's Sections</div>
+				</div>
+				<div class="row">
+					<div class="cell" style="width: 50%; vertical-align: top">
+						<ul id="source_list" style="width: 100%; height: 100px">
+							<% @courses.each do |c| %>
+								<% c.sections.each do |s| %>
+								<li id="<%= "section_#{s.id}" %>"><%= "#{c.number} Section #{s.number}" %></li>
+								<% end %>
+							
+							<% end %>
+						</ul>
+					</div>
+					<div class="cell" style="" id="drop_area">
+						<ul id="add_list" style="height: 150px; background-color: #F1F1F1">
+
+						</ul>
+					</div>
+					<%= sortable_element("source_list", :dropOnEmpty => true, :containment => ["source_list", "add_list"], :constraint => false,  :url => { :action => 'remove_section'}) %>
+					<%= sortable_element("add_list", :dropOnEmpty => true, :containment => ["source_list", "add_list"], :constraint => false,  :url => { :action => 'add_section'}) %>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

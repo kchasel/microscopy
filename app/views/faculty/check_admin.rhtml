@@ -1,0 +1,13 @@
+<h2>Administrator Authentication</h2>
+This action requires an administrator's username and password.
+<%= form_tag({ :action => @action, :params => params }) %>
+<div class="form_table">
+<div class="row">
+<div class="cell label">CNetID</div><div class="cell"><%= text_field_tag(:cnet) %></div>
+</div>
+<div class="row">
+<div class="cell label">Password</div><div class="cell"><%= password_field_tag(:password) %></div>
+</div>
+</div>
+<%= submit_tag("Authenticate") %> <%= cancel_button("Cancel", :action => 'index', :controller => 'faculty') %>
+</form>

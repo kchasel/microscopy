@@ -1,0 +1,49 @@
+<h2><%= text_field(:pathway, :name, :placeholder => "Pathway name" )%></h2>
+
+<div id="pathway-builder">
+
+<h3 class="blue">your pathway</h3>
+<div id="new-pathway-list" class="image_holder">
+	<%= render :partial => 'image_list', :collection => @pathway.sorted_images %>
+</div>
+<div style="float: right">
+	<span class="h4like">select a course or section to find slides</span>
+	<select id="course-selector" name="course-selector">
+	<option value="">Courses</option>
+	<%= options_from_collection_for_select(@courses, :id, :number) %>
+	<option value="all">All slides</option>
+</select>
+<select id="system-selector" name="system-selector">
+	<option value="">Systems</option>
+	<%= options_from_collection_for_select(@systems, :id, :name) %>
+	<option value="all">All slides</option>
+</select>
+<script type="text/javascript">
+//<![CDATA[
+new Form.Element.EventObserver('course-selector', function(element, value) {Element.update('all-images-list', "<div id=\"loading-notice\"><div class=\"loading-text\">loading slides</div></div>"); new Ajax.Request('/pathway/update_images?', {asynchronous:true, evalScripts:true, parameters:'course_id=' + value + '&' + Sortable.serialize('new-pathway-list')})})
+//]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[
+new Form.Element.EventObserver('system-selector', function(element, value) {Element.update('all-images-list', "<div id=\"loading-notice\"><div class=\"loading-text\">loading slides</div></div>"); new Ajax.Request('/pathway/update_images?', {asynchronous:true, evalScripts:true, parameters:'system_id=' + value + '&' + Sortable.serialize('new-pathway-list')})})
+//]]>
+</script>
+</div>
+<h3>all slides</h3>
+<div id='all-images-list' class="image_holder">
+
+</div>
+
+<%= hidden_field(:pathway, :order, :value => "")%>
+
+	<script type="text/javascript">
+	//<![CDATA[
+	Sortable.create("new-pathway-list", {constraint:false, containment:['new-pathway-list','all-images-list'], dropOnEmpty:true, overlap:'horizontal', scroll: window, hoverclass:'active', tag:'img', onUpdate:function(){update_order_field_for_sortables()}})
+	//]]>
+	</script>
+	
+	<script type="text/javascript">
+	//<![CDATA[
+	Sortable.create("all-images-list", {constraint:false, scroll: window, containment:['new-pathway-list','all-images-list'], dropOnEmpty:true, overlap:'horizontal', tag:'img'});
+	//]]>
+	</script>

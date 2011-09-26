@@ -1,0 +1,8 @@
+sym = @key.to_s + '_slider'
+if @value == "0"
+  page[sym].select('div#inactive-text').first.className = "inactive slider_endtext"
+  page[sym].select('div#active-text').first.className = "noselect slider_endtext"
+else
+  page[sym].select('div#inactive-text').first.className = "noselect slider_endtext"
+  page[sym].select('div#active-text').first.className = "active slider_endtext"
+end

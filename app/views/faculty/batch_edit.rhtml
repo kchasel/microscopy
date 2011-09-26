@@ -1,0 +1,9 @@
+<h2>Batch Edit</h2>
+<p>Use to edit attributes of multiple slides at once. Select multiple slides contiguous slides using Shift-click or multiple non-contiguous slides using command-click on Mac or control-click on Windows.</p>
+<%= error_messages_for 'image', :header_message => "The following attributes were not valid and the slides could not be saved
+<br /><span class='small'>If you do not wish to change an attribute, make sure its checkbox is unchecked.</span>", :message => nil %>
+<%= form_tag({:action => 'batch_edit'}, :onsubmit => "if ($('image_maintain_sections').checked == false && $('image_maintain_sections').disabled==false) { if (confirm('Any existing sections for these slides will be deleted and replaced with those entered here. Continue?')) { return true; } else { return false; } };") %>
+<div class="form_table">
+<%= render :partial => 'batch_form' %>
+</div>
+<%= submit_tag("Edit") %> <%= cancel_button("Cancel") %></form>

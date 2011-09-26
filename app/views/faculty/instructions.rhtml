@@ -1,0 +1,23 @@
+<h2>Site Instructions</h2>
+<h3>General Account Information</h3>
+General users, such as students, who use the Virtual Microscopy System may view any slides with the privacy setting "Public" (see below) without logging in. Accounts in the system are only available (and in fact permitted) for those CNetIDs granted explicit permission to have an account. An account allows one to upload slides, annotate them, and modify them later. There are several levels of accounts, which are detailed below.
+<h3>Privacy Settings</h3>
+There are three privacy settings for slides in the system.
+<ul>
+	<li><b>Public</b>: These slides are visible to anyone who accesses the site, whether or not they are logged-in. The annotations may be visible immediately or may only be visible after a certain date; this option can be changed by the slide's owner.</li>
+	<li class="private"><b>Private</b>: These slides are visible only to account holders who are currently logged-in, and are thus invisible to students and any other user who accesses the site without logging-in. They will appear with a pink background in any lists.</li>
+	<li class="private_all"><b>Private to All</b>: Slides with this setting can only be seen by their owner and the root site administrator (see above). They are thus invisible to students and any other account holders. They will appear with a yellow background in any lists.</li>
+</ul>
+<h3>Annotations</h3>
+<p>Slides may be annotated by their owner and by site administrators. The annotations screen can be accessed by navigating to Slide Management and clicking on the name of the slide you wish to annotate. Follow the instructions on the right-hand side of the screen and use the annotation tools in the Zoomify window. Make sure you save any annotations by clicking the Save button that appears after creating a new annotations, or else the changes will not be saved.</p>
+<p>If you wish, you can also choose to hide annotations from students until a given date and time. This option can be changed by clicking on the Edit Record link of the slide in Slide Management. Setting the date to some point in the future will prevent annotations from appearing on the slide until that time. Note that account holders can always view annotations, whether on not they are set to be visible only after a certain date.</p>
+<h3>Account Permission</h3>
+Only users whose CNetIDs are on the "allowed users" whitelist (at <%= RAILS_ROOT + '/config/allowed_users.txt' %>) may <b>login</b> to the system. Thus, in order to obtain an account in the system, a user must first have their CNetID added to the list. Note also that it is possible for a user to have an account but not login privileges, if their CNetID is not on the allowed users list but was previously and they setup an account during that time.
+<br />Administrators (see below) have access to the users list and can see which category each user falls into. They may also add and remove users from the allowed users list. Please note that the root user's placement on the allowed users list has no effect. The root user may always login.
+<h3>Account Levels</h3>
+There are three account levels.
+<ul>
+	<li><b>General Account</b>: A general account holder may upload slides, and subsequently annotate, manage, and delete these slides. An account holder may also view any slides with the privacy setting Private, in addition to those with the privacy setting Public (see below), and view annotations on slides regardless of the annotation appear date.</li>
+	<li><b>Administrator Account</b>: An administrator account has all of the power of a general account. In addition, an administrator may annotate, edit, and delete slides which do not belong to his/her account (except those with the privacy setting Private to All, which are still invisible to administrator accounts). An administrator may also assign (and remove) other users as administrators, delete other users accounts, and add users to and remove users from the allowed users list.</li>
+	<li><b>Root Administrator Account</b>: The root administrator has total power in the system. There is only one root administrator account, <%= ZoomifyVars::CONFIG[:shared_admin] %>. This account may view, edit, annotate, and delete any slide in the system, regardless of the privacy setting of the slide. The root administrator account cannot be deleted by anyone or by itself, and cannot be unset as an administrator. Caution is recommended; only use this account when absolutely necessary.</li>
+</ul>

@@ -1,0 +1,8 @@
+<h2>Editing <%= @image.name %> (<%= @image.z_name %>)</h2>
+<%= error_messages_for('image') %>
+<%= form_tag({:action => 'edit', :id => @image.id}) %>
+<div class="form_table">
+<%= render :partial => 'form' %>
+</div>
+<%= submit_tag("Edit") %> <%= cancel_button("Cancel", :action => 'index' ) %>
+</form>

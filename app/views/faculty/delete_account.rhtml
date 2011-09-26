@@ -1,0 +1,12 @@
+<h2>Account Deletion</h2>
+<% if @to_delete.id != site_user.id and @images.length > 0 %><h3>You are about to delete <%= @to_delete.cnet %> (ID <%= @to_delete.id %>). This user has <%= pluralize(@images.length, "slide") %> in the system, which can either be deleted along with the user, or transferred to your account (<%= "#{site_user.cnet}, ID #{site_user.id}" %>). Please select which you would like to do below.</h3>
+
+<% elsif @to_delete.id != site_user.id and @images.length == 0 %><h3>You are about to delete <%= @to_delete.cnet %> (ID <%= @to_delete.id %>). This user has no slides, so no existing slides will be affected by this action. Please click the button below to confirm this action.</h3>
+
+<% else %><h3>You are about to delete yourself, <%= @to_delete.cnet %> (ID <%= @to_delete.id %>). You have <%= pluralize(@images.length, 'slide') %> in the system, which will be deleted along with your account. If you wish to delete your account but save the slides, have an administrator <%= "(other than  yourself)" if site_user.admin == true %> delete you. Click the button below to complete this action.</h3><% end %>
+<% if @images.length > 0 %><h4>Slides affected by this action: <%= @images.collect { |i| "<b>#{i.name} (#{i.id}; #{i.z_name})</b>" }.to_sentence %></h4><% end %>
+
+<%= form_tag({ :action => 'delete_account', :id => @to_delete.id }, :method => :delete) %>
+<div align="center"><%= submit_tag "Save all #{@to_delete.cnet}'s slides to my account, then delete #{@to_delete.cnet}" if site_user.id != @to_delete.id and @images.length > 0 %>  <%= submit_tag "Delete #{@to_delete.cnet}'s slides, then delete #{@to_delete.cnet}" %></div>
+</form>
+<div align="center"><%= button_to "Cancel", session[:location], :method => :get %></div>

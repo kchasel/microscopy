@@ -1,0 +1,49 @@
+<div id="controlpanel">
+<%= link_to "&#171; back to Slide Management", { :action => 'index', :controller => 'faculty'}, :style => "position: absolute; top: 6px; left: 6px; color: gray; font-weight: bold" %>	
+
+<div style="border-bottom: 1px solid #dfdfdf">
+	<center><h1>Master Control Panel</h1>
+	<h3>the options defined here apply to the entire system and changes take effect immediately</h3></center>
+</div>
+	
+	<h2>Annotations</h2>
+	<h4>whether annotations for all slides are visible to students and non-logged-in users.</h4>
+	<center><div style="display: inline-block; text-align: center" id="annotations_slider">
+		<div id="inactive-text" class="<%= annotations_active ? 'noselect' : 'inactive' %> slider_endtext" style="display: table-cell; vertical-align: middle; padding-right: 7px">OFF</div>
+		<div class="track" id="anno_track">
+			<div class="handle" id="anno_handle"></div>
+		</div>
+		<div id="active-text" class="<%= annotations_active ? 'active' : 'noselect' %> slider_endtext" style="display: table-cell; vertical-align: middle; padding-left: 7px">ON</span></div>
+	</div></center>
+	
+	<h2>Accounts</h2>
+	<h4>activates and deactivates login for all accounts. the root user is unaffected</h4>
+	<center><div style="display: inline-block; text-align: center" id="accounts_slider">
+		<div id="inactive-text" class="<%= accounts_active ? 'noselect' : 'inactive' %> slider_endtext" style="display: table-cell; vertical-align: middle; padding-right: 7px">INACTIVE</div>
+		<div class="track" id="account_track" style="display: table-cell; background-color: #DDD; border: 1px solid gray; 
+		    width: 160px; height: 40px;">
+			<div class="handle" id="account_handle" style=""></div>
+		</div>
+		<div id="active-text" class="<%= accounts_active ? 'active' : 'noselect' %> slider_endtext" style="display: table-cell; vertical-align: middle; padding-left: 7px">ACTIVE</span>
+	</div></center>
+	
+<script>
+	var anno_slider = new Control.Slider('anno_handle','anno_track',{axis:'horizontal',maximum:1,sliderValue:<%= annotations_active ? 1 : 0 %>,onChange:function(v){set_slider(v,anno_slider,"annotations")}});
+	var account_slider = new Control.Slider('account_handle','account_track',{axis:'horizontal',maximum:1,sliderValue:<%= accounts_active ? 1 : 0 %>,onChange:function(v){set_slider(v,account_slider,"accounts")}});
+	function set_slider(v, slider, type)
+	{
+		if (v < 0.5 && v != 0)
+		{
+			slider.setValue(0);
+		}
+		else if (v >= 0.5 && v != 1)
+		{
+			slider.setValue(1);
+		}
+		else
+		{
+			<%= remote_function(:url => { :action => 'apply_settings' }, :with => "'value[' + type + ']' + '=' + v") %>
+		}
+	};
+</script>
+</div>

@@ -1,0 +1,21 @@
+<h2>Zipped Zoomified Slide Upload<% if is_root? %> | <%= link_to "Pre-Uploaded Slide Addition &#187;", :action => "batch_upload" %> <% end %></h2>
+<p>Use this form to add a new slide to the database. <% if is_root? %>To add slides that have already been uploaded to the server, use the <%= link_to "batch addition tool", :action => "batch_upload" %>.<% else %>To add slides that have already been uploaded to the server, you must login as the <%= link_to "root administrator", :action => "instructions" %>.<% end %>
+<ol>
+	<li>Zoomify your slide using Zoomifyer. This process will create a folder with the same name as your slide file.</li>
+	<li>Zip the resulting folder as-is, creating a .zip file containing only this folder.</li>
+	<li>Upload the .zip file here.</li>
+	<li>The system will unzip your file and retrieve the necessary files for your slide.</li>
+</ol></p>
+<h3>All fields are required</h3>
+<%= error_messages_for(:image, :object_name => "slide") %>
+<%= form_tag({:action => 'add_slide'}, :multipart => true, :onsubmit => "this.commit.disabled=true") %>
+<div class="form_table">
+<div class="row">
+<div class="cell label">Zipped Zoomifyed Slide</div><div class="cell"><%= file_field(:image, :file) %> <span class="minitext">Must be a .zip file!</span></div>
+</div>
+<%= render :partial => 'form' %>
+</div>
+<input name="commit" type="submit" value="Upload" onclick="Element.show('loading')" /> <%= cancel_button("Cancel", :action => 'index') %>
+<div class="loading_field" style="display: none" id="loading"><img src="/images/loading-bar.gif">
+<br />Uploading... Please be patient; this process may take several minutes.</div>
+</form>

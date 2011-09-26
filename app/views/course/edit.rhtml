@@ -1,0 +1,9 @@
+<h2>Course Edit</h2>
+<h3>All fields are required</h3>
+<%= error_messages_for(:course) %>
+<%= form_tag({:action => 'edit', :id => @course.id}) %>
+<div class="form_table">
+<%= render :partial => 'form' %>
+</div>
+<input name="commit" type="submit" value="Edit" /> <%= cancel_button("Cancel", :action => 'index') %>
+</form>

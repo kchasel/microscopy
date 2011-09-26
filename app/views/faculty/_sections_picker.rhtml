@@ -1,0 +1,4 @@
+<select name="image_sections" multiple=true id="image_sections">
+<option value=""><%= @course.number %> Sections</option>
+<%= options_from_collection_for_select(@sections, :id, :number) %>
+</select>

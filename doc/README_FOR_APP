@@ -1,0 +1,125 @@
+How to Deploy the University of Chicago Hospitals Virtual Microscopy System
+
+--Requirements--
+
+-A server within the University of Chicago network. The LDAP authentication of CNetIDs will not be available otherwise.
+-lighttpd installed on server, configured to begin a fastcgi process running the rails app in the production environment (see lighttpd.conf in this folder, which can power a simple setup. install in /etc/lighttpd)
+-Ruby on Rails 2.1.0 or later installed on server (Ruby >= 1.8.6 implied)
+-access to MySQL, on either localhost or another server
+-a MySQL database named "zoomify", with a user FILTERED, which has access to the zoomify database
+NOTE: to use a different database or user, the file zoomify/config/database.yml must be modified
+-MySQL and Ruby running
+
+NOTE: the app is compatible with other server software, such as SQLite, MsSQL, PostgreSQL, and others. Look at http://wiki.rubyonrails.org/rails/pages/HowtosDatabase for more information regarding how to switch the app to use on of these servers instead.
+
+--Setup--
+
+1. Ensure the above requirements have been met.
+
+2. Place the zoomify directory in /var/www/localhost/
+NOTE: this is the default location. If you decide to install the app in a different location, you'll need to edit the supplied lighttpd.conf file to reflect this, specifically the var.basedir variable at the top.
+
+3. Navigate to the base directory of the app (default /var/www/localhost/zoomify/)
+
+4. Recursively change the permissions of public, tmp, and log to allow the lighttpd user to make changes to these directories. Also change the permissions of config (recursive unnecessary, just the directory) and config/options.yml to allow the lighttpd user to write to these.
+NOTE: for increased security, only tmp and log need to be entirely permitted for the lighttpd user. In public, only the directory z_images (or whatever it symlinks to) must be recursively permitted.
+
+5. Modify the values in config/initializers/zoomify.rb to your liking. Be sure to insert your e-mail (or wherever you'd like root password reports sent) in the admin e-mail value. Also ensure the values for the mail server are correct before moving on to the next step. See Configuration Variables and Root User (below) for more information.
+
+6. From the base directory, run the command "rake db:migrate" to setup the zoomify database (this command will setup any Rails-supported database). This will also insert the root user into the database automatically. You should receive an e-mail from the app with the password for the root user, which is randomly generated when the database is built. In case you don't receive this e-mail, the password will also be written into config/first_root_pw.txt.
+
+7. Start lighttpd. The application should now be accessible.
+
+8. Login as the root user and change the root password. Then add any desired CNetIDs to the allowed users list using Admin tools.
+
+If the application isn't working, check the production.log file in /log and the lighttpd log file.
+
+--Root User--
+The root user has complete power over the system and cannot be deleted. The default value for the username is
+
+FILTERED
+
+The default username can be changed by modifying the configuration file located at config/initializers/zoomify.rb BEFORE BUILDING THE DATABASE (step 6 above). The system relies on the value for the root user in this file to correctly identify which user is root, so changing it after building the database will result in inaccessibility of the root user, a pretty grave situation. If this happens, remodifying the value to the original value when the database was built and restarting the app should solve the problem.
+
+The root password is randomly generated upon building the database. The value will be sent to the site owner's e-mail (defined in config/initializers/zoomify.rb), and placed in config/first_root_pw.txt.
+
+--Other Users--
+All other users are authenticated using the university's LDAP system by CNetID and password. To grant access to a particular CNet, add that CNEt to the file config/allowed_users.txt with one value on each line. This can either be done manually or using Admin tools while logged in as an administrator (or the root user).
+
+Even if a user has an account in the database, if their CNet is not on the list, they will not have access privileges until they are readded to the list.
+
+--Configuration Variables--
+The file config/initializers/zoomify.rb contains several variables for the system as a whole.
+
+-admin e-mail: the e-mail address of the user ("site owner") who will receive an e-mail if the root password is forgotten. Also the user from whom e-mails will appear to be sent.
+-designer e-mail: who to contact in case a problem/bug arises that requires changes to the code
+-allowed users: users who can log into the system regardless of their placement on the allowed users list.
+-shared admin: the username of the root administrator. DO NOT CHANGE THIS VALUE AFTER BUILDING THE DATABASE.
+-host name: the base URL where your app will appear. Only required for proper URLs in e-mails.
+-dept code: the 4 letter department code to append before course numbers
+
+E-mail server settings: set these as appropriate for your situation. If your server has an e-mail server, simply use "localhost" for :address. All variable options, including others, are listed beneath the default settings.
+
+
+--CHANGELOG--
+
+VERSION 2.0
+
+-Courses and Sections for Slides-
+
+This version introduces some major changes. The most important is an entirely new course and section scheme. Courses and Sections are no longer elements of slides but are a database model in their own right. Each Course has Sections, and each Section has Subsections. 
+
+Slide < Subsection < Section < Course
+
+Thus, a slide is only assigned Subsections, and the Sections and Courses to which the slide belongs are inferred from them. Slides can have multiple Subsections, and thus multiple Sections and Courses. Also new are Systems. Like Subsections, each slide may be assigned multiple Systems.
+
+The search functions have been updated to accommodate this new scheme.
+
+Also of importance is the routing scheme. In version 1.0, links to slides could be constructed using the route
+
+[course number]/[section number]/[slide name]
+
+This was the only named route to this slide in 1.0 because each slide could only have one section number and course number. Because slides can now have multiple courses, slides now have multiple links. Every slide has the following links available to it:
+
+/main/view/[slide id]
+/slide/[slide name]
+/[course of slide]/[section of slide]/[slide name] (multiples)
+/system/[system of slide]/[slide name] (multiples)
+
+The first two are always available. The latter two are available depending on the assignment of courses and systems to a slide.
+
+Ex: If a slide Hi (id 4) is a member of course 11111 section 1 and course 22222 sections 2 and 3, as well as of the system Cardio, all of the following will work:
+
+/main/view/4
+/slide/Hi
+/11111/1/Hi
+/22222/2/Hi
+/22222/3/Hi
+/system/Cardio/Hi
+
+All lists in the system will link to the slides using the /slide/[slide name] format.
+
+NB: If you are looking to maintain a permanent link to a given slide, you must use the first format (/main/view/[slide id]). This is the only link that will remain constant regardless of changes to the slide's name, systems, and courses.
+
+-Slide XML Templates-
+
+The XML file generated for each slide upon creation is now customized automatically for the slide. The default note will now contain simply the name of the slide, and the dates will be set to the upload date of slide. This change does not affect existing slides in the system.
+
+-Users-
+
+In this version, administrators can add and remove users from the allowed users list (in config/allowed_users.txt) directly from the app. This can be accessed by any administrator from the Admin functions page once logged in.
+
+Additionally, the password for the root user is no longer hard-coded into the app. The root user password is randomly generated when the database is first built, and can later be reset by any administrator and changed to a specific value by the root user.
+
+-Slide Relationships-
+Slides can be linked to one another through relationships. This allows for the construction of "pathways" students can follow that will lead them to other slides of interest.
+
+-Other Changes-
+*new logo introduced
+*interface cleaned up and streamlined
+*new Master Control Panel, accessible by the root user, that allows master control over the visibility of annotations and the activation of other user accounts (not including the root user)
+*personal preferences for users (on Account Management page)
+*xml data output of lists of slides or courses in the system. Simply append 'xml/' to the start of any URL. Ex: http://vmicro.uchicago.edu/xml/12345 gives XML output of all slides for course 12345.
+
+6/2/2008
+*Master configuration file for the system moved to config/initializers/zoomify.rb from config/environments/zoomify_environment.rb. The file config/environment.rb was modified accordingly to remove the need to require the zoomify environment (files in the initializers directory are loaded automatically).

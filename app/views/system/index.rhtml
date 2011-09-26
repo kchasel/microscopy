@@ -1,0 +1,24 @@
+<h2>Systems</h2>
+
+<div class="searchbar">
+<div class="row">
+<div class="cell">
+	<% if site_user %>
+	<% form_for :system, @system, :url => { :action => 'new' } do |f| %>
+	Name <%= f.text_field(:name) %>
+	<%= f.submit('Add New System') %>
+	<% end %>
+	<% end %>
+</div>
+<div class="cell" style="text-align: right">
+<%= link_to "XML", :format => 'xml' %> |
+System Search
+<input id="searchtext" name="searchtext" type="text" value="" />
+<%= observe_field "searchtext", :frequency => 1.0, :url => { :action => 'search' }, :update => "system_list", :with => "'search=' + escape(value)", :loading => "$('searchtext').className='searching'", :complete => "$('searchtext').className=''" %>
+</div>
+</div>
+</div>
+
+<div id="system_list">
+	<%= render :partial => 'system_list' %>
+</div>

@@ -1,0 +1,46 @@
+<div class="row">
+<div class="cell label">Display Name</div><div class="cell"><%= text_field(:image, :name) %></div>
+</div>
+<div class="row">
+<div class="cell label">Magnification</div><div class="cell"><%= text_field(:image, :magnification, :size => 4, :maxlength => 5) %>X</div>
+</div>
+<div class="row">
+	<div class="cell label">Courses and Sections</div>
+	<div class="cell" style="vertical-align: top" id="adder_field">
+		<%= render :partial => 'csss_adder_text' %>
+	</div>
+</div>
+<div class="row">
+	<div class="cell label">Systems</div>
+	<div class="cell">
+		<select id="image_systems_array_1" name="image[systems_array][]">
+			<option value=""></option>
+			<%= options_from_collection_for_select(@systems, :id, :name, (@image.systems.first.id if @image.systems.first)) %>
+		</select>
+		<select id="image_systems_array_2" name="image[systems_array][]">
+			<option value=""></option>
+			<%= options_from_collection_for_select(@systems, :id, :name, (@image.systems[1].id if @image.systems[1])) %>
+		</select>
+		<select id="image_systems_array_3" name="image[systems_array][]">
+			<option value=""></option>
+			<%= options_from_collection_for_select(@systems, :id, :name, (@image.systems[2].id if @image.systems[2])) %>
+		</select>
+		<span class="h4like"><%= link_to "Manage Systems &#187;", :action => 'index', :controller => 'system' %>
+	</div>
+</div>
+<div class="row">
+<div class="cell label">Status</div><div class="cell"><%= radio_button(:image, :status, 'public') %>Public <%= radio_button(:image, :status, 'private') %>Private <%= radio_button(:image, :status, 'private_all')%>Private to all</div>
+</div>
+<div class="row">
+<div class="cell"></div>
+<div class="cell"><span class="minitext">Public slides may be viewed by students and faculty. Private slides may only be viewed by faculty. Private to all slides may only be viewed by you and the root administrator</span>
+</div>
+</div>
+<div class="row">
+<div class="cell label">Annotation Appear Date</div><div class="cell"><%= datetime_select(:image, :show_annotations) %> <%= Time.now.strftime("%Z")%></div>
+</div>
+<div class="row">
+<div class="cell"></div>
+<div class="cell">
+<span class="minitext">If this is changed to a future date, the annotations will not be viewable by students until that time.</span></div>
+</div>

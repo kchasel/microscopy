@@ -1,0 +1,2 @@
+module ZoomifyHelper
+end

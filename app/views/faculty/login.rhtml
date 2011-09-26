@@ -1,0 +1,28 @@
+<div class="table visible_borders">
+	<div class="row general_header">
+	<div class="cell">
+		Faculty Login
+	</div>
+	<div class="cell"></div>
+	</div>
+<div class="row">
+<div class="cell" style="width: 30%">
+<%= form_tag(:action => 'login') %>
+<div class="form_table">
+<div class="row">
+<div class="cell label">CNetID</div>
+<div class="cell"><div class="field"><%= text_field_tag(:cnet) %></div></div>
+</div>
+<div class="row">
+<div class="cell label">Password</div>
+<div class="cell"><div class="field"><%= password_field_tag(:password)%></div></div>
+</div>
+</div><%= submit_tag("Login") %> <%= cancel_button("Cancel", :action => 'index', :controller => 'main') %>
+</form>
+</div>
+<div class="cell" style="vertical-align: top; background-color: #F1F1F1; white-space: nowrap">
+<h4>Only permitted CNetIDs may login.
+<br /><span style="color: #323232">All others, <%= link_to 'return home &#187;', :action => 'index', :controller => 'main' %></span></h4>
+</div>
+</div>
+</div>

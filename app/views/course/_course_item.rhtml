@@ -1,0 +1,13 @@
+<div class="row <%= 'alt' if course_item_counter.modulo(2).nonzero? %>" id="row_<%= course_item.id %>">
+	<div class="cell name_cell">
+	<span class="editlinks" style="float: right"><%= link_to "Edit", :action => 'edit', :id => course_item.id if site_user %> | <%= link_to "Delete", { :action => 'delete', :id => course_item.id }, :confirm => "Are you sure you want to delete #{course_item.name} (#{DEPT_CODE} #{course_item.number})?" if site_user %></span>
+	<%= link_to course_item.name, :action => 'index', :controller => 'main', :coursenum => course_item.number %>
+	</div>
+	<div class="cell name_cell" width="30%"><%= link_to course_item.number, :action => 'index', :controller => 'main', :coursenum => course_item.number %>
+	</div>
+	
+	<div class="cell course_num_cell"><span class="editlinks"><% course_item.sections.each do |s| %><%= link_to s.number, :action => 'index', :controller => 'main', :coursenum => course_item.number, :sectionnum => s.number %><%= ", " unless s == course_item.sections.last %><% end %></span></div>
+	
+	<div class="cell course_num_cell"><%= course_item.images.length %></div>
+
+</div>

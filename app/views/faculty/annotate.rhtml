@@ -1,0 +1,66 @@
+<script>
+window.onload = function () { stickToBottom(); }
+window.onresize = function () { stickToBottom(); }
+</script>
+
+<div id="slidebox">
+	<div class="edit_header row">
+		<div class="header_cell">
+
+		<div style="float: right; padding-left: 5px; clear: none"><span class="small">
+		<% if site_user and not @image.annotations? %>
+		<div class="notice_field" style="display: inline"><span class="small">Annotations hidden to students until <%= @image.show_annotations.strftime('%D %T %Z') %></span></div>
+		<% end %><%= link_to "Edit Record", :action => 'edit', :id => @image.id %><span id="instructions_link"> | <%= link_to_function("&#171; Instructions", "Element.toggle('instructions_header');Element.toggle('instructions_box');Element.toggle('instructions_link')") %>
+		</span></span></div>
+	
+	<span class="small"><%= link_to "&#171; All Slides", :action => "index" %> > <%= @image.name %> <%= "<i>(Private file)</i>" if @image.status == 'private' %><%= "<i>(Private to All file)</i>" if @image.status == 'private_all' %></span>
+
+
+</div>
+
+<div class="header_cell" style="display: none" id="instructions_header">
+<span class="small"><%= link_to_function("Instructions &#187;", "Element.toggle('instructions_header');Element.toggle('instructions_box'); Element.toggle('instructions_link')") %></span>
+</div>
+</div>
+<div class="row">
+<div class="slidecell">
+<OBJECT id=ZAS codeBase=http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0 height=100% width=100% align=center classid=clsid:D27CDB6E-AE6D-11cf-96B8-444553540000>
+<PARAM NAME="movie" VALUE="/ZAS.swf">
+<PARAM NAME="quality" VALUE="high">
+<PARAM NAME="bgcolor" VALUE="#FFFFFF">
+<PARAM NAME="FlashVars" VALUE="FILTERED">
+
+<EMBED src="/ZAS.swf" FlashVars="FILTERED">
+
+</EMBED>
+</OBJECT>
+</div>
+<div class="side_cell" style="display: none" id="instructions_box">
+<div class="instructions">
+	<b>Adding/editing a label</b>
+	<i>A label saves the zoom level at which it is added, so navigating to a label using the Label list is similar to navigating to a POI.</i>
+	<ol>
+		<li>Click ADD/EDIT above the label list. A new label appears in the main display.</li>
+		<li>Place your label either by dragging on its text field or using the small arrows in the label control. Use the + and - controls to grow or shrink your label.</li>
+		<li>Name your label using the Label text field. This text fills in the label text field in the main display.</li>
+		<li>Choose colors for the label text and the background color. Enter a URL if desired, then click SAVE.</li>
+		<li>Your label appears in the Label list.</li>
+	</ol>
+<b>Adding/editing a POI</b>
+<ol>
+	<li>Click ADD/EDIT above the POI list.</li>
+	<li>Use the small viewer window to zoom into and locate your POI.</li>
+	<li>Name your POI in the text box, then click SAVE.</li>
+	<li>Choose your new POI in the list, and click Go. The large display will refresh to show your POI.</li>
+</ol>
+<b>Adding/editing a note</b>
+<ol>
+	<li>Click ADD/EDIT above the note box.</li>
+	<li>Enter your note into the entry box. All double quotes will be converted to single quotes.</li>
+	<li>Name your note in the name field above the text entry box, then click SAVE.</li>
+	<li>Choose your name in the Note list. It will be displayed in the box beneath.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>

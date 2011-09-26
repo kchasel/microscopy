@@ -1,0 +1,28 @@
+<div class="searchbar">
+<div class="row">
+<div class="cell">
+	Showing/searching <%= "all slides" if not params[:coursenum] and not params[:system] %><%= "slides from the #{params[:system]} system" if params[:system] %><%= "slides for #{DEPT_CODE} #{params[:coursenum]}" if params[:coursenum] and not params[:sectionnum] %><%= "slides from #{link_to "#{DEPT_CODE} #{params[:coursenum]}", :action => "index", :coursenum => params[:coursenum], :sectionnum => nil} section #{params[:sectionnum]}" if params[:coursenum] and params[:sectionnum] %><% if params[:coursenum] or params[:system] %> | <%= link_to "All slides", :action => "index", :coursenum => nil, :sectionnum => nil %><% end %>
+<% if site_user %><br /><span style="font-size: 9px">Pink = Private (invisible to students); Yellow = Private to All (only visible to you)</span><% end %>
+</div>
+<div class="cell" style="text-align: right">
+<%= link_to "XML", :format => 'xml', :controller => 'main' %>
+<select onchange="location.href='<%= url_for(:action => 'index', :coursenum => nil, :sectionnum => nil) %><%= "/" if controller.controller_name != 'main' %>' + this.value">
+	<option value="/" selected>Courses</option>
+	<%= options_from_collection_for_select(Course.find(:all), :number, :number) %>
+	<option value="courses">List all</option>
+</select>
+<select onchange="location.href='<%= url_for(:action => 'system', :system => "") %>' + this.value">
+	<option value="/" selected>Systems</option>
+	<%= options_from_collection_for_select(System.find(:all), :name, :name) %>
+	<option value="index">List all</option>
+</select>
+<select onchange="location.href='<%= url_for(:action => 'view', :controller => 'pathway') %>/' + this.value">
+	<option value="/" selected>Pathways</option>
+	<%= options_from_collection_for_select(Pathway.find(:all), :id, :name) %>
+</select>
+Slide Search
+<input id="searchtext" name="searchtext" type="text" value="" />
+<%= observe_field "searchtext", :frequency => 1.0, :url => { :action => 'search' }, :update => "img_list", :with => "'search=' + escape(value) #{" + '&coursenum=' + " + params[:coursenum] if params[:coursenum]} #{" + '&sectionnum=' + " + params[:sectionnum] if params[:sectionnum]} #{" + '&system=#{params[:system]}'" if params[:system]}", :loading => "$('searchtext').className='searching'", :complete => "$('searchtext').className=''" %>
+</div>
+</div>
+</div>

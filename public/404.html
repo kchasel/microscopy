@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>The page you were looking for doesn't exist (404)</title>
+	<link rel="stylesheet" href="stylesheets/standard.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<style>
+	.dialog { text-align: center }
+	</style>
+
+</head>
+
+<body>
+	
+	<div class="topleftbox">
+	<div class="logo" onclick="location.href='<%= url_for :action => 'index', :controller => 'main', :coursenum => nil, :sectionnum => nil %>';"></div>
+	</div>
+	
+  <div class="dialog">
+    <h1 class="blue">The page you were looking for doesn't exist</h1>
+    <h3>You may have mistyped the address or the page may have moved.</h3>
+  </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+
+
+<div id="controlpanel">
+	
+	<div style="border-bottom: 1px solid #dfdfdf; text-align: center">
+		<select id="pathways-selector" onchange="location.href='<%= url_for(:action => 'edit', :id => nil) %>/'+value">
+			<option value="">Edit Existing</option>
+			<%= options_from_collection_for_select(@all_pathways, :id, :name) %>
+		</select>
+			
+		<h1>Pathway Builder</h1>
+		<h4>important: only slides with a status of public will appear to students in the pathway</h4>
+	</div>
+	<%= error_messages_for(:pathway) %>
+	<%= form_tag :action => 'new' %>
+	
+		<%= render :partial => 'visual_form' %>
+	
+	<%= submit_tag("Complete") %> <%= cancel_button("Cancel") %>
+	
+	</form>
+	</div>
+	
+</div>

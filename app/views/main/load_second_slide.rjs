@@ -1,0 +1,5 @@
+page << "$('topslide').style.height = '50%';"
+page << "$('bottomslide').style.height = '50%';"
+page.show 'bottomslide'
+page.replace_html 'bsspace', :partial => 'slide_viewer'
+page << "$('id').selectedIndex=0"

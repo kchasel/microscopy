@@ -1,0 +1,10 @@
+<div class="table">
+<div class="row general_header">
+	<div class="cell name_cell">System Name</div>
+	<div class="cell course_num_cell">Slides</div>
+</div>
+
+	<%= render :partial => 'system_item', :collection => @systems %>
+
+</div>
+<%= "<div class='nothing_found'>no systems found</div>" if @systems.empty? %>
